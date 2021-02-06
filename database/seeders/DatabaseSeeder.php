@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Feature;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +15,49 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $categories = [
+            'Arts',
+            'Autos',
+            'Beauty',
+            'Books',
+            'Business',
+            'Computers',
+            'Finance',
+            'Food',
+            'Games',
+            'Health',
+            'Hobbies',
+            'Home',
+            'Internet',
+            'Jobs',
+            'Law',
+            'News',
+            'Online',
+            'People',
+            'Pets',
+            'Real Estates',
+            'Science',
+            'Shopping',
+            'Sports',
+            'Travel',
+            'Other'
+        ];
+
+        foreach ($categories as $category) {
+            Category::create(['name' => $category]);
+        }
+
+        $features = [
+            'Mobile app on Google Play',
+            'Mobile app on Apple Store',
+            'Mobile app on Huawei Store',
+            'Web application',
+            'Data Analysis',
+            'Machine Learning'
+        ];
+
+        foreach ($features as $feature) {
+            Feature::create(['name' => $feature]);
+        }
     }
 }

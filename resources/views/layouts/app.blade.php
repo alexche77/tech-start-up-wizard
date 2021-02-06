@@ -22,17 +22,19 @@
     </style>
 </head>
 <body class="font-sans antialiased" style="font-family: 'Source Sans Pro', sans-serif;"/>
-<div class="bg-gray-100">
+<div class="flex flex-col h-screen justify-between bg-gray-100">
 @include('layouts.navigation')
 
 <!-- Page Content -->
-    <main @if(request()->routeIs('welcome')) class="gradient" @endif>
+    <main class="mb-auto @if(request()->routeIs('welcome')) gradient @endif">
         {{ $slot }}
     </main>
+    <!--Footer-->
+    <footer class="bg-white text-center">
+        <p class="text-lg">Made with ♥ - Powered by <a href="https://torre.co" target="_blank">Torre.co</a></p>
+    </footer>
 </div>
-<!--Footer-->
-<footer class="bg-white text-center">
-    <p class="text-lg">Made with ♥ - Powered by <a href="https://torre.co" target="_blank">Torre.co</a></p>
-</footer>
+
 </body>
+
 </html>

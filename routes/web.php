@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StartUpController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/')
+Route::resource('/startup', StartUpController::class);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

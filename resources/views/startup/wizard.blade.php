@@ -3,7 +3,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
                 <div>
-                    <h2 class="text-lg text-center">Tell us about your startup!</h2>
+                    <h2 class="text-xl text-center"><b>Tell us about your startup!</b></h2>
                     <div class="w-full py-6">
                         <div class="flex">
                             <div class="w-1/4">
@@ -54,12 +54,69 @@
                             </div>
                         </div>
                     </div>
-                    <form action="{{ route('startup.create') }}" method="POST" enctype="multipart/form-data">
+                    <div class="flex w-full justify-center">
+                        <div class="self-center w-1/2">
+                            <form action="{{ route('startup.create') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
 
-                        <div class="mx-10 text-center py-10">
-                            <h2 class="text-xl"><b>So you are starting a new project?</b></h2>
+                                <div class="flex flex-col md:mx-10 md:py-10" x-data="{ currentStep: 1}">
+                                    <div x-show="currentStep==1" x-cloak>
+                                        <h2 class="text-lg pb-10"><b>{{__('So you are starting a new project...')}}</b>
+                                        </h2>
+                                        <div class="px-3 mb-6 md:mb-0">
+                                            <x-label :value="__('What is the name of your project?')"></x-label>
+                                            <x-input class="w-full" id="name" name="name" type="text" required
+                                                     placeholder="Tech Startup - Team Builder"
+                                                     maxlength="100">
+                                            </x-input>
+                                            @error('name')
+                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div x-data="{ count: 0 }" x-init="count = $refs.countme.value.length"
+                                             class="md:w-full px-3 my-6">
+                                            <x-label :value="__('What does it do?')"
+                                            ></x-label>
 
+                                            <x-text-area x-ref="countme" x-on:keyup="count = $refs.countme.value.length"
+                                                         maxlength="255"
+                                                         class=" h-5/6 w-full" id="description" name="description"
+                                                         type="text"
+                                                         placeholder="This is an awesome project that will.."
+                                            >
+                                                <x-slot name="value">
+
+                                                </x-slot>
+                                            </x-text-area>
+                                            <span x-html="count"></span> / <span
+                                                x-html="$refs.countme.maxLength"></span>
+                                            @error('name')
+                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="md:w-full px-3 mb-6 md:mb-0">
+                                            <x-label for="category"
+                                                     :value="__('Which of this describes best the category of your project?')"></x-label>
+                                            <x-select
+                                                identifier="category"
+                                                id="category"
+                                                :options="$categories">
+                                            </x-select>
+
+                                            @error('category')
+                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <x-button>
+                                        {{__('Next')}}
+                                    </x-button>
+                                </div>
+                            </form>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>

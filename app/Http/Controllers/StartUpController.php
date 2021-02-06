@@ -11,11 +11,11 @@ class StartUpController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        return $this->edit(new StartUp());
+        return view('startup.wizard', ['startup' => new StartUp(), 'categories' => Category::all()->sortBy('name')->pluck('name', 'id')->toArray(), 'features' => Feature::all()->sortBy('name')->pluck('name', 'id')->toArray()]);
     }
 
 

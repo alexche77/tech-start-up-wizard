@@ -21,6 +21,8 @@ class CreateStartUpsTable extends Migration
             $table->foreignIdFor(Category::class);
             $table->double('seed_capital')->default(0);
             $table->integer('mvp_deadline')->default(0);
+            $table->boolean('public')->default(false);
+            $table->string('url')->nullable(false);
             $table->softDeletes();
             $table->timestamps();
         });

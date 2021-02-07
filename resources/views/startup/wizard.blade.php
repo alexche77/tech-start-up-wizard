@@ -6,7 +6,7 @@
                     <h2 class="text-xl text-center"><b>Let's build your startup!</b></h2>
                     <div class="w-full py-6">
                         <div class="flex">
-                            <div class="w-1/4">
+                            <div class="w-1/3">
                                 <x-step :number="1" :text="'Basic information'" :isFirst="true">
                                     <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
@@ -17,7 +17,7 @@
                                 </x-step>
                             </div>
 
-                            <div class="w-1/4">
+                            <div class="w-1/3">
                                 <x-step :number="2" :text="'MVP'">
 
                                     <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -28,20 +28,17 @@
                                     </svg>
                                 </x-step>
                             </div>
-                            <div class="w-1/4">
-                                <x-step :number="3" :text="'About you'">
+                            {{--                            <div class="w-1/4">--}}
+                            {{--                                <x-step :number="3" :text="'The Dream Team'">--}}
 
-                                    <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                                    </svg>
-                                </x-step>
-                            </div>
+                            {{--                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">--}}
+                            {{--                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />--}}
+                            {{--                                    </svg>--}}
+                            {{--                                </x-step>--}}
+                            {{--                            </div>--}}
 
-                            <div class="w-1/4">
-                                <x-step :number="4" :text="'Finished'">
+                            <div class="w-1/3">
+                                <x-step :number="3" :text="'Finished'">
 
                                     <svg class="w-full fill-current" xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 24 24"
@@ -56,7 +53,7 @@
                     </div>
                     <div class="flex w-full justify-center">
                         <div class="self-center w-1/2">
-                            <form action="{{ route('startup.create') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('startup.storeh') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="flex flex-col md:mx-10 md:py-10">
                                     <div x-show="currentStep === 1" x-cloak>
@@ -109,10 +106,10 @@
                                         </div>
                                         <div class="px-3 mb-6">
                                             <x-label
-                                                :value="__('How much money (US$) will be invested as capital seed?')"></x-label>
+                                                :value="__('How much money (US$) will be invested as capital seed? (Optional)')"></x-label>
                                             <x-input class="w-full" id="seed_capital" name="seed_capital" type="number"
                                                      required
-                                                     placeholder="US $50,000"
+                                                     hint="Leave 0 if not sure"
                                                      x-model="seedCapital"
                                                      min="0">
                                             </x-input>
@@ -142,8 +139,8 @@
                                                     for="{{$feature->name}}">
                                                     <x-input type="checkbox" value="{{$feature->id}}"
                                                              id="{{$feature->id}}"
-                                                             name="features[]"
-                                                             @click="toggleOnFeatureArray({{$feature->id}})"/>
+                                                             x-model="features[{{$loop->index}}]"
+                                                             name="features[]"/>
                                                     {{$feature->name}}
                                                 </x-label>
 
@@ -153,20 +150,23 @@
                                         </div>
                                     </div>
                                     <div x-show="currentStep === 3" x-cloak>
-                                        <h2 class="text-lg pb-10">
-                                            <b>{{__('Last, but not least, tell us about you!')}}</b>
+                                        <h2 class="text-lg pb-10"><b>{{__('Ok, we are done..')}}</b>
                                         </h2>
-
-
-
+                                        <p class="text-lg">After you click the "Lets'go" button, we will start looking
+                                            for the best profiles based on your answers, powered by Torre.co</p>
+                                        <p class="text-lg">Once the profiles are ready, we will send you an email, from
+                                            there you will be able to see the dream team we have choosen for you.</p>
                                     </div>
                                     <div class="text-center">
                                         <x-button x-show="currentStep > 1" type="button"
                                                   @click="stepBack" x-cloak>
                                             {{__('Back')}}
                                         </x-button>
-                                        <x-button type="button" @click="stepForward">
+                                        <x-button x-show="currentStep < 3" type="button" @click="stepForward" x-cloak>
                                             {{__('Next')}}
+                                        </x-button>
+                                        <x-button x-show="currentStep === 3" type="submit" x-cloak>
+                                            {{__("Let's go 🚀")}}
                                         </x-button>
                                     </div>
                                 </div>
@@ -228,29 +228,20 @@
                                 this.errors.mvpDeadline = "Please, specify a valid number greater than 0"
                                 return;
                             }
+                            const selected = this.features.filter(value => value !== true);
+                            console.log('Selected', selected);
+                            if (selected.length < 1) {
+                                this.errors.features = "Please select at least one feature."
+                                return
+                            }
                             break;
                         case 3:
-                            break;
-                        case 4:
                             break;
                     }
                     this.currentStep++
                 },
                 stepBack() {
                     this.currentStep--
-                },
-                toggleOnFeatureArray(id) {
-                    if (this.features.includes(id)) {
-                        for (var i = 0; i < this.features.length; i++) {
-
-                            if (this.features[i] === id) {
-                                this.features.splice(i, 1);
-                                console.log(this.features)
-                            }
-                        }
-                    }else{
-                        this.features.push(id)
-                    }
                 }
             }
         }

@@ -157,6 +157,8 @@
                                             <b>{{__('Last, but not least, tell us about you!')}}</b>
                                         </h2>
 
+
+
                                     </div>
                                     <div class="text-center">
                                         <x-button x-show="currentStep > 1" type="button"

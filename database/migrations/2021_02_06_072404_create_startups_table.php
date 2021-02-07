@@ -33,6 +33,6 @@ class CreateStartUpsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('start_up');
+        Schema::dropIfExists('start_ups');
     }
 }

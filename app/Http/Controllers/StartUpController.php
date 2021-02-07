@@ -15,7 +15,7 @@ class StartUpController extends Controller
      */
     public function create()
     {
-        return view('startup.wizard', ['categories' => Category::all()->sortBy('name')->pluck('name', 'id')->toArray(), 'features' => Feature::all()->sortBy('name')->pluck('name', 'id')->toArray()]);
+        return view('startup.wizard', ['categories' => Category::all()->sortBy('name')->pluck('name', 'id')->toArray(), 'features' => Feature::all()->sortBy('name')]);
     }
 
 

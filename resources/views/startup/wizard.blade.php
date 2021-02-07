@@ -58,7 +58,6 @@
                         <div class="self-center w-1/2">
                             <form action="{{ route('startup.create') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-
                                 <div class="flex flex-col md:mx-10 md:py-10">
                                     <div x-show="currentStep === 1" x-cloak>
                                         <h2 class="text-lg pb-10"><b>{{__('So you are starting a new project...')}}</b>
@@ -70,7 +69,8 @@
                                                      x-model="name"
                                                      maxlength="100">
                                             </x-input>
-                                            <p x-show="errors.name" class="mt-1 text-red text-xs italic" x-html="errors.name"></p>
+                                            <p x-show="errors.name" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.name"></p>
                                         </div>
                                         <div x-init="count = $refs.countme.value.length"
                                              class="md:w-full px-3 my-6">
@@ -91,7 +91,8 @@
                                             <span x-html="description.length"></span> / <span
                                                 x-html="$refs.countme.maxLength"></span>
 
-                                            <p x-show="errors.description" class="mt-1 text-red text-xs italic" x-html="errors.description"></p>
+                                            <p x-show="errors.description" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.description"></p>
 
                                         </div>
                                         <div class="md:w-full px-3 mb-6">
@@ -103,31 +104,69 @@
                                                 :options="$categories">
                                             </x-select>
 
-                                            <p x-show="errors.category" class="mt-1 text-red text-xs italic" x-html="errors.category"></p>
+                                            <p x-show="errors.category" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.category"></p>
                                         </div>
                                         <div class="px-3 mb-6">
-                                            <x-label :value="__('How much money (US$) will be invested as capital seed?')"></x-label>
-                                            <x-input class="w-full" id="seed_capital" name="seed_capital" type="number" required
+                                            <x-label
+                                                :value="__('How much money (US$) will be invested as capital seed?')"></x-label>
+                                            <x-input class="w-full" id="seed_capital" name="seed_capital" type="number"
+                                                     required
                                                      placeholder="US $50,000"
                                                      x-model="seedCapital"
                                                      min="0">
                                             </x-input>
-                                            <p x-show="errors.seedCapital" class="mt-1 text-red text-xs italic" x-html="errors.seedCapital"></p>
+                                            <p x-show="errors.seedCapital" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.seedCapital"></p>
                                         </div>
                                     </div>
                                     <div x-show="currentStep === 2" x-cloak>
-                                        <h2 class="text-lg pb-10"><b>{{__('What about those scary deadlines?')}}</b>
+                                        <h2 class="text-lg pb-10"><b>{{__('And..about that MVP...')}}</b>
+                                        </h2>
+                                        <div class="px-3 mb-6">
+                                            <x-label
+                                                :value="__('How many months do you need to deliver an MVP?')"></x-label>
+                                            <x-input class="w-full" id="mvp_deadline" name="mvp_deadline" type="number"
+                                                     required
+                                                     x-model="mvpDeadline"
+                                                     min="0">
+                                            </x-input>
+                                            <p x-show="errors.mvpDeadline" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.mvpDeadline"></p>
+                                        </div>
+                                        <div class="px-3 mb-6">
+                                            <x-label
+                                                :value="__('Which of this will you need in order to delivery the MVP?')"></x-label>
+                                            @foreach($features as $feature)
+                                                <x-label
+                                                    for="{{$feature->name}}">
+                                                    <x-input type="checkbox" value="{{$feature->id}}"
+                                                             id="{{$feature->id}}"
+                                                             name="features[]"
+                                                             @click="toggleOnFeatureArray({{$feature->id}})"/>
+                                                    {{$feature->name}}
+                                                </x-label>
+
+                                            @endforeach
+                                            <p x-show="errors.features" class="mt-1 text-red text-xs italic"
+                                               x-html="errors.features"></p>
+                                        </div>
+                                    </div>
+                                    <div x-show="currentStep === 3" x-cloak>
+                                        <h2 class="text-lg pb-10">
+                                            <b>{{__('Last, but not least, tell us about you!')}}</b>
                                         </h2>
 
-                                </div>
-                                <div class="text-center">
-                                    <x-button x-show="currentStep > 1" type="button"
-                                              @click="stepBack" x-cloak>
-                                        {{__('Back')}}
-                                    </x-button>
-                                    <x-button type="button" @click="stepForward">
-                                        {{__('Next')}}
-                                    </x-button>
+                                    </div>
+                                    <div class="text-center">
+                                        <x-button x-show="currentStep > 1" type="button"
+                                                  @click="stepBack" x-cloak>
+                                            {{__('Back')}}
+                                        </x-button>
+                                        <x-button type="button" @click="stepForward">
+                                            {{__('Next')}}
+                                        </x-button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -139,47 +178,54 @@
     <script>
         function data() {
             return {
-                errors:{
+                errors: {
                     name: null,
                     description: null,
-                    category:null,
-                    seedCapital:0,
+                    category: null,
+                    seedCapital: 0,
+                    features: null
                 },
                 count: 0,
                 currentStep: 1,
                 name: '',
-                category:'',
-                description:'',
-                seedCapital:0,
+                category: '',
+                description: '',
+                seedCapital: 0,
+                mvpDeadline: 0,
+                features: [],
                 stepForward() {
-                    switch (this.currentStep){
+                    console.log(this.availableFeatures);
+                    switch (this.currentStep) {
                         case 1:
-                            if (this.name.length< 1){
+                            if (this.name.length < 1) {
                                 this.errors.name = "Name cannot be empty"
                                 return;
-                            }else{
+                            } else {
                                 this.errors.name = null;
                             }
-                            if (this.description < 1){
+                            if (this.description < 1) {
                                 this.errors.description = "Description cannot be empty"
                                 return;
-                            }else{
+                            } else {
                                 this.errors.description = null;
                             }
-                            if (!this.category){
+                            if (!this.category) {
                                 this.errors.category = "Please, select an option"
                                 return;
-                            }else{
+                            } else {
                                 this.errors.category = null;
                             }
 
-                            if (!this.seedCapital || this.seedCapital < 0){
+                            if (!this.seedCapital || this.seedCapital < 0) {
                                 this.errors.seedCapital = "Please, specify a valid number greater than 0"
                                 return;
                             }
-                            console.log(this.seedCapital);
                             break;
                         case 2:
+                            if (!this.mvpDeadline || this.mvpDeadline < 0) {
+                                this.errors.mvpDeadline = "Please, specify a valid number greater than 0"
+                                return;
+                            }
                             break;
                         case 3:
                             break;
@@ -188,8 +234,21 @@
                     }
                     this.currentStep++
                 },
-                stepBack(){
+                stepBack() {
                     this.currentStep--
+                },
+                toggleOnFeatureArray(id) {
+                    if (this.features.includes(id)) {
+                        for (var i = 0; i < this.features.length; i++) {
+
+                            if (this.features[i] === id) {
+                                this.features.splice(i, 1);
+                                console.log(this.features)
+                            }
+                        }
+                    }else{
+                        this.features.push(id)
+                    }
                 }
             }
         }

@@ -67,47 +67,58 @@
                                             <x-label :value="__('What is the name of your project?')"></x-label>
                                             <x-input class="w-full" id="name" name="name" type="text" required
                                                      placeholder="Tech Startup - Team Builder"
+                                                     x-model="name"
                                                      maxlength="100">
                                             </x-input>
-                                            @error('name')
-                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
-                                            @enderror
+                                            <p x-show="errors.name" class="mt-1 text-red text-xs italic" x-html="errors.name"></p>
                                         </div>
-                                        <div x-data="{ count: 0 }" x-init="count = $refs.countme.value.length"
+                                        <div x-init="count = $refs.countme.value.length"
                                              class="md:w-full px-3 my-6">
                                             <x-label :value="__('What does it do?')"
                                             ></x-label>
 
-                                            <x-text-area x-ref="countme" x-on:keyup="count = $refs.countme.value.length"
+                                            <x-text-area x-ref="countme" x-model="description"
                                                          maxlength="255"
                                                          class=" h-5/6 w-full" id="description" name="description"
                                                          type="text"
+                                                         x-model="description"
                                                          placeholder="This is an awesome project that will.."
                                             >
                                                 <x-slot name="value">
 
                                                 </x-slot>
                                             </x-text-area>
-                                            <span x-html="count"></span> / <span
+                                            <span x-html="description.length"></span> / <span
                                                 x-html="$refs.countme.maxLength"></span>
-                                            @error('name')
-                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
-                                            @enderror
+
+                                            <p x-show="errors.description" class="mt-1 text-red text-xs italic" x-html="errors.description"></p>
+
                                         </div>
-                                        <div class="md:w-full px-3 mb-6 md:mb-0">
+                                        <div class="md:w-full px-3 mb-6">
                                             <x-label for="category"
                                                      :value="__('Which of this describes best the category of your project?')"></x-label>
                                             <x-select
-                                                identifier="category"
+                                                :identifier="'category'"
                                                 id="category"
                                                 :options="$categories">
                                             </x-select>
 
-                                            @error('category')
-                                            <p class="mt-1 text-red text-xs italic">{{ $message }}</p>
-                                            @enderror
+                                            <p x-show="errors.category" class="mt-1 text-red text-xs italic" x-html="errors.category"></p>
+                                        </div>
+                                        <div class="px-3 mb-6">
+                                            <x-label :value="__('How much money (US$) will be invested as capital seed?')"></x-label>
+                                            <x-input class="w-full" id="seed_capital" name="seed_capital" type="number" required
+                                                     placeholder="US $50,000"
+                                                     x-model="seedCapital"
+                                                     min="0">
+                                            </x-input>
+                                            <p x-show="errors.seedCapital" class="mt-1 text-red text-xs italic" x-html="errors.seedCapital"></p>
                                         </div>
                                     </div>
+                                    <div x-show="currentStep === 2" x-cloak>
+                                        <h2 class="text-lg pb-10"><b>{{__('What about those scary deadlines?')}}</b>
+                                        </h2>
+
                                 </div>
                                 <div class="text-center">
                                     <x-button x-show="currentStep > 1" type="button"
@@ -128,9 +139,53 @@
     <script>
         function data() {
             return {
+                errors:{
+                    name: null,
+                    description: null,
+                    category:null,
+                    seedCapital:0,
+                },
+                count: 0,
                 currentStep: 1,
+                name: '',
+                category:'',
+                description:'',
+                seedCapital:0,
                 stepForward() {
+                    switch (this.currentStep){
+                        case 1:
+                            if (this.name.length< 1){
+                                this.errors.name = "Name cannot be empty"
+                                return;
+                            }else{
+                                this.errors.name = null;
+                            }
+                            if (this.description < 1){
+                                this.errors.description = "Description cannot be empty"
+                                return;
+                            }else{
+                                this.errors.description = null;
+                            }
+                            if (!this.category){
+                                this.errors.category = "Please, select an option"
+                                return;
+                            }else{
+                                this.errors.category = null;
+                            }
 
+                            if (!this.seedCapital || this.seedCapital < 0){
+                                this.errors.seedCapital = "Please, specify a valid number greater than 0"
+                                return;
+                            }
+                            console.log(this.seedCapital);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
                     this.currentStep++
                 },
                 stepBack(){

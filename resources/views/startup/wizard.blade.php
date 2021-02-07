@@ -1,13 +1,13 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" x-data="data()">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
                 <div>
-                    <h2 class="text-xl text-center"><b>Tell us about your startup!</b></h2>
+                    <h2 class="text-xl text-center"><b>Let's build your startup!</b></h2>
                     <div class="w-full py-6">
                         <div class="flex">
                             <div class="w-1/4">
-                                <x-step :active="true" :text="'Basic information'" :isFirst="true">
+                                <x-step :number="1" :text="'Basic information'" :isFirst="true">
                                     <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
                                          stroke="currentColor">
@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="w-1/4">
-                                <x-step :active="true" :text="'MVP'">
+                                <x-step :number="2" :text="'MVP'">
 
                                     <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
@@ -29,7 +29,7 @@
                                 </x-step>
                             </div>
                             <div class="w-1/4">
-                                <x-step :active="true" :text="'About you'">
+                                <x-step :number="3" :text="'About you'">
 
                                     <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="w-1/4">
-                                <x-step :active="true" :text="'Finished'">
+                                <x-step :number="4" :text="'Finished'">
 
                                     <svg class="w-full fill-current" xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 24 24"
@@ -59,8 +59,8 @@
                             <form action="{{ route('startup.create') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
-                                <div class="flex flex-col md:mx-10 md:py-10" x-data="{ currentStep: 1}">
-                                    <div x-show="currentStep==1" x-cloak>
+                                <div class="flex flex-col md:mx-10 md:py-10">
+                                    <div x-show="currentStep === 1" x-cloak>
                                         <h2 class="text-lg pb-10"><b>{{__('So you are starting a new project...')}}</b>
                                         </h2>
                                         <div class="px-3 mb-6 md:mb-0">
@@ -110,7 +110,11 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <x-button>
+                                    <x-button x-show="currentStep > 1" type="button"
+                                              @click="stepBack" x-cloak>
+                                        {{__('Back')}}
+                                    </x-button>
+                                    <x-button type="button" @click="stepForward">
                                         {{__('Next')}}
                                     </x-button>
                                 </div>
@@ -121,4 +125,18 @@
             </div>
         </div>
     </div>
+    <script>
+        function data() {
+            return {
+                currentStep: 1,
+                stepForward() {
+
+                    this.currentStep++
+                },
+                stepBack(){
+                    this.currentStep--
+                }
+            }
+        }
+    </script>
 </x-app-layout>

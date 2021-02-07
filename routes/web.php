@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::resource('/startup', StartUpController::class);
+Route::resource('/startup', StartUpController::class)->middleware('auth:web');
 
 require __DIR__ . '/auth.php';

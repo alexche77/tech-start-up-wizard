@@ -62,9 +62,9 @@
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
                         @endif
-                        @endauth
+
                     </div>
-            @endif
+            @endauth
             <!-- Hamburger -->
                 <div class="-mr-2 flex items-center sm:hidden">
                     <button @click="open = ! open"
@@ -79,7 +79,7 @@
                         </svg>
                     </button>
                 </div>
-
+            @endif
 
         </div>
     </div>
@@ -125,7 +125,6 @@
                             </x-responsive-nav-link>
                         @endif
                     @endauth
-
                 @endif
 
             </div>

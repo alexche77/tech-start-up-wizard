@@ -15,21 +15,18 @@ Powered by Torre.co
 
 ----
 
-### Entities
+### Devlog?
 
-Startup
+Day 1: 
+Recieved the email and I could not believe how hard this test was going to be, because I had to come with something up.
+I did not want to do the usual stuff, a search, a job listing app, I wanted to give it a little more fun.
 
-What's the name of your startup? 
-How would you describe this startup?
-Which category suits the best for your startup?
-- Pick from predefined categories
-For this startup, what's the capital you are willing to invest in work force?
-- A number, representing the budget for the team that the builder will hire
-What's the expected timeline to fully create the MVP? (in months)
-- A number, representing how many months the user expects the MVP to be built
-Let's talk about the products you need for your MVP:
-- Multiple options: Android Application, iOS application, Landing Page, Web Application, Data Analytics
-Now, what's your role on this start up?
-    Allow the user to specify a user on each role suggested, this allows the user to specify himself on rooster position and salary
+So the idea is simple, given a couple of parameters that the user specifies when entering the startup details, we go
+and use the torre.co api to search for best coincidences, the final idea would have a better ui, seed capital vs actual cost 
+based on the MVP deliverable date, etc.
+
+Day 2: 
+
+After some sleep, I bootstrapped 
 
 

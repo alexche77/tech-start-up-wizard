@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 
 class StartUpController extends Controller
 {
@@ -81,22 +82,24 @@ class StartUpController extends Controller
 
         $validated = $request->validated();
         $features = Feature::findMany($validated['features']);
+        Log::debug($features);
         $category = Category::find($validated['category']);
-
+        Log::debug("VALIDATED DATA", ['dbFeatures' => $features, 'queryFeatures' => $validated['features']]);
         $startUp->name = $validated['name'];
         $startUp->description = $validated['description'];
         $startUp->mvp_deadline = $validated['mvp_deadline'];
         $startUp->seed_capital = $validated['seed_capital'];
         $startUp->user_id = $request->user()->id;
-        $startUp->features()->attach($features);
+
         $startUp->category_id = $category->id;
 
         $startUp->save();
-
-
+        Log::debug("All the features for this startup ", ['features' => $startUp->features()->get()->all()]);
+        $startUp->features()->attach($features);
+        $startUp->save();
         SetupDreamTeam::dispatch($startUp);
 
-        return back();
+        return redirect(route('startup.index'));
 
     }
 

@@ -142,10 +142,10 @@
                                             @foreach($features as $feature)
                                                 <x-label
                                                     for="{{$feature->name}}">
-                                                    <x-input type="checkbox" value="{{$feature->name}}"
+                                                    <x-input type="checkbox" value="{{$feature->id}}"
                                                              id="{{$feature->id}}"
-                                                             x-model="features[{{$loop->index}}]"
-                                                             name="features[{{$feature->id}}]"/>
+                                                             x-model="features"
+                                                             name="features[]"/>
                                                     {{$feature->name}}
                                                 </x-label>
 

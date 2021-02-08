@@ -12,4 +12,9 @@ class Position extends Model
         'role_keywords' => 'array',
         'skill_keywords' => 'array'
     ];
+
+
+    public function features(){
+        return $this->belongsToMany(Feature::class);
+    }
 }

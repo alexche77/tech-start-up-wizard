@@ -48,23 +48,6 @@ class DatabaseSeeder extends Seeder
             Category::create(['name' => $category]);
         }
 
-        $features = [
-            'Mobile app',
-            'Web application',
-            'Data Analysis',
-            'Machine Learning',
-            'QA Testing',
-            'Sales Team'
-        ];
-
-        $featureKeywords = [
-          ['']
-        ];
-
-        foreach ($features as $key => $feature) {
-            Feature::create(['name' => $feature]);
-        }
-
 
         $startupPositions = [
             'Chief Technology Officer (CTO)',
@@ -73,25 +56,32 @@ class DatabaseSeeder extends Seeder
             'Product Director',
             'Backend Developer',
             'Frontend Developer',
+            'Mobile Developer',
             'Tester',
             'Tech Lead',
             'DevOps',
             'Sales',
-            'Admin & Office Manager'
+            'Admin & Office Manager',
+            'Machine Learning Engineer',
+            'Data Scientist',
+
 
         ];
         $role_keywords = [
-            ['CTO'],
-            ['CMO', 'M'],
-            ['CFO', 'Accountant', 'Business'],
-            ['Product Owner'],
-            ['Backend', 'Database'],
+            [],
+            [],
+            [],
+            [],
+            ['Backend', 'Database', 'Data Analyst', 'Data Analytics'],
             ['Frontend', 'Angular', 'Vue', 'JavaScript', 'React'],
+            ['Android', 'iOS', 'Flutter', 'React Native'],
             ['QA', 'Tester'],
             ['Technical Lead'],
             ['DevOps'],
             ['Sale', 'CSO'],
-            ['Administrator', 'HR', 'Manager']
+            ['Administrator', 'HR', 'Manager'],
+            ['Machine Learning'],
+            ['Data Mining', 'Data Analysis']
         ];
 
         foreach ($startupPositions as $key => $position) {
@@ -99,6 +89,27 @@ class DatabaseSeeder extends Seeder
                 'name' => $position,
                 'role_keywords' => $role_keywords[$key]
             ]);
+        }
+
+        $features = [
+            'Mobile app',
+            'Web application',
+            'Data Analysis',
+            'Machine Learning',
+            'QA Testing',
+        ];
+        $relatedPositionId = [
+            [7],
+            [5, 6],
+            [5, 14],
+            [13],
+            [8],
+        ];
+
+        foreach ($features as $key => $feature) {
+            $featureCreated = Feature::create(['name' => $feature]);
+            $featureCreated->positions()->attach($relatedPositionId[$key]);
+            $featureCreated->save();
         }
 
 

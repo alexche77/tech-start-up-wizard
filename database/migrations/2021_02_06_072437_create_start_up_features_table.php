@@ -15,7 +15,7 @@ class CreateStartUpFeaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('start_up_features', function (Blueprint $table) {
+        Schema::create('feature_start_up', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(StartUp::class)->constrained();
             $table->foreignIdFor(Feature::class)->constrained();
@@ -30,6 +30,6 @@ class CreateStartUpFeaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('start_up_features');
+        Schema::dropIfExists('feature_start_up');
     }
 }

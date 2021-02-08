@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\Feature;
-use App\Models\StartUp;
+use App\Models\Position;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeaturesStartupTable extends Migration
+class CreatePositionFeatureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,11 @@ class CreateFeaturesStartupTable extends Migration
      */
     public function up()
     {
-        Schema::create('features_startup', function (Blueprint $table) {
+        Schema::create('feature_position', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(StartUp::class)->constrained();
-            $table->foreignIdFor(Feature::class)->constrained();
+            $table->foreignIdFor(Position::class);
+            $table->foreignIdFor(Feature::class);
         });
     }
 
@@ -30,6 +30,6 @@ class CreateFeaturesStartupTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('features_startup');
+        Schema::dropIfExists('feature_position');
     }
 }

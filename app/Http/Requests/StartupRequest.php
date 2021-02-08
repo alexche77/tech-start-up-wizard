@@ -26,7 +26,7 @@ class StartupRequest extends FormRequest
         return  [
             'name' => 'required|max:100',
             'description' => 'max:250',
-            'features' => 'required|min:1',
+            'features.*' => 'required|min:1',
             'category' => 'required|exists:categories,id',
             'mvp_deadline' => 'min:0',
             'seed_capital' => 'min:0',

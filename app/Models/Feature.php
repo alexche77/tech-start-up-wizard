@@ -14,4 +14,8 @@ class Feature extends Model
     {
         return $this->belongsToMany(StartUp::class);
     }
+
+    public function positions(){
+        return $this->belongsToMany(Position::class);
+    }
 }

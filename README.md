@@ -27,6 +27,7 @@ based on the MVP deliverable date, etc.
 
 Day 2: 
 
-After some sleep, I bootstrapped 
+After some sleep, I bootstrapped the project with laravel, I did not think I had enough time to execute with frontend
+backend approach, so I went full SSR.
 
 

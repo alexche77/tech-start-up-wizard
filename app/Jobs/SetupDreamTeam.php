@@ -45,7 +45,7 @@ class SetupDreamTeam implements ShouldQueue
             $this->startUp->sync_in_progress = true;
             $this->startUp->save();
             Log::info("Starting up!", [$this->startUp]);
-            Mail::to(User::find($this->startUp->user_id))->send(new StartupCreated($this->startUp));
+            //Mail::to(User::find($this->startUp->user_id))->send(new StartupCreated($this->startUp));
             /**
              * Here is where the magic happens
              * */

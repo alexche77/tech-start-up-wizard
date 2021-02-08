@@ -90,8 +90,8 @@ services:
   #        - "443:443"
   #      volumes:
   #        - ./docker/nginx:/etc/nginx/conf.d
-  certbot:
-    image: certbot/certbot
+#  certbot:
+#    image: certbot/certbot
 networks:
   sail:
     driver: bridge

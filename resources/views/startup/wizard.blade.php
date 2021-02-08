@@ -4,6 +4,11 @@
             <div class="p-6 bg-white border-b border-gray-200">
                 <div>
                     <h2 class="text-xl text-center"><b>Let's build your startup!</b></h2>
+                    @if($errors)
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    @endif
                     <div class="w-full py-6">
                         <div class="flex">
                             <div class="w-1/3">
@@ -53,7 +58,7 @@
                     </div>
                     <div class="flex w-full justify-center">
                         <div class="self-center w-1/2">
-                            <form action="{{ route('startup.storeh') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('startup.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="flex flex-col md:mx-10 md:py-10">
                                     <div x-show="currentStep === 1" x-cloak>
@@ -137,10 +142,10 @@
                                             @foreach($features as $feature)
                                                 <x-label
                                                     for="{{$feature->name}}">
-                                                    <x-input type="checkbox" value="{{$feature->id}}"
+                                                    <x-input type="checkbox" value="{{$feature->name}}"
                                                              id="{{$feature->id}}"
                                                              x-model="features[{{$loop->index}}]"
-                                                             name="features[]"/>
+                                                             name="features[{{$feature->id}}]"/>
                                                     {{$feature->name}}
                                                 </x-label>
 

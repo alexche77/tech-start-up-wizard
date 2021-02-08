@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\StartUpController;
+use App\Jobs\SetupDreamTeam;
+use App\Models\StartUp;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +20,15 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::resource('/startup', StartUpController::class)->middleware('auth:web');
+Route::middleware(['auth:web'])->group(function () {
+    Route::post('/startup/{startup}/sync', function ($startUpId) {
+        \Illuminate\Support\Facades\Log::info('Sync');
+        SetupDreamTeam::dispatch(StartUp::find($startUpId));
+        return back();
+    })->name('startup_sync');
+    Route::resource('/startup', StartUpController::class);
+
+});
+
 
 require __DIR__ . '/auth.php';

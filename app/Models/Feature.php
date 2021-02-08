@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Feature extends Model
 {
     use HasFactory;
+
+
+    public function startups()
+    {
+        return $this->belongsToMany(StartUp::class);
+    }
 }

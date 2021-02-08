@@ -2,17 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StartupRequest;
+use App\Jobs\SetupDreamTeam;
 use App\Models\Category;
 use App\Models\Feature;
 use App\Models\StartUp;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class StartUpController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Application|Factory|View|Response
+     */
+    public function index(Request $request)
+    {
+        $startups = StartUp::where('user_id', $request->user()->id)->with(['category'])->orderByDesc('created_at');
+        $q = NULL;
+        if ($request->q != null) {
+            $q = $request->q;
+            $startups = $startups->where('name', 'LIKE', '%' . $q . '%');
+        }
+        return view('startup.index', ['startups' => $startups->paginate(10), 'q' => $q]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View|Response
      */
     public function create()
     {
@@ -23,8 +48,8 @@ class StartUpController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\StartUp $startUp
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param StartUp $startUp
+     * @return Application|Factory|View|Response
      */
     public function edit(StartUp $startUp)
     {
@@ -35,10 +60,10 @@ class StartUpController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param StartupRequest $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(StartupRequest $request)
     {
         return $this->update($request, new StartUp(), true);
     }
@@ -46,15 +71,33 @@ class StartUpController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\StartUp $startUp
+     * @param StartupRequest $request
+     * @param StartUp $startUp
      * @param bool $isCreate
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException
+     * @return Application|RedirectResponse|Response|Redirector
      */
-    public function update(Request $request, StartUp $startUp, $isCreate = false)
+    public function update(StartupRequest $request, StartUp $startUp, $isCreate = false)
     {
-        dd($request->all());
+
+        $validated = $request->validated();
+        $features = Feature::findMany($validated['features']);
+        $category = Category::find($validated['category']);
+
+        $startUp->name = $validated['name'];
+        $startUp->description = $validated['description'];
+        $startUp->mvp_deadline = $validated['mvp_deadline'];
+        $startUp->seed_capital = $validated['seed_capital'];
+        $startUp->user_id = $request->user()->id;
+        $startUp->features()->attach($features);
+        $startUp->category_id = $category->id;
+
+        $startUp->save();
+
+
+        SetupDreamTeam::dispatch($startUp);
+
+        return back();
+
     }
 
 

@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-LABEL maintainer="Taylor Otwell"
+LABEL maintainer="Alvaro Chávez"
 
 ARG WWWGROUP
 

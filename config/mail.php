@@ -44,7 +44,7 @@ return [
             'timeout' => null,
             'auth_mode' => null,
         ],
-        'from' => ['address' => 'info@tech-team-builder.com', 'name' => 'Tech Team Builder'],
+        'from' => ['address' => 'info@fractaldevelopment.tech', 'name' => 'Tech Team Builder'],
         'ses' => [
             'transport' => 'ses',
         ],

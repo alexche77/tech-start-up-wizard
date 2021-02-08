@@ -64,25 +64,13 @@ class SetupDreamTeam implements ShouldQueue
 //                }
                     $data = [
                         'and' => [
-                            [
-                                'role' => [
-                                    'term' => $position->name,
-                                ]
-                            ],
-                            [
-                                'periodicity' => [
-                                    'term' => 'monthly'
-                                ]
-                            ],
-                            [
-                                'opento' => [
-                                    'term' => 'full-time-employment'
-                                ]
-                            ]
+                           "or"=>[
+
+                           ]
                         ]
                     ];
                     Log::info("Searching with body", ['body' => $data]);
-                    $results = Http::post($apiURL . '/people/_search/?offset=0&size=50', $data)['results'];
+                    $results = Http::post($apiURL . '/people/_search/?offset=0&size=10', $data)['results'];
                     $usernames = [];
                     foreach ($results as $result) {
                         $compensations = $result['compensations'];

@@ -2,10 +2,9 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         @forelse($startups as $startup)
-            <h2>{{$startup->name}}</h2>
-            <p>Features needed for MVP</p>
+            <h2><b>Startup:</b>{{$startup->name}}</h2>
             @foreach($startup->features()->get()->all() as $feature)
-                <p>{{$feature->name}}</p>
+                <p><b>To work on:</b>{{$feature->name}}</p>
                 @forelse($feature->positions as $position)
                     <p><b>Position:</b> {{$position->name}}</p>
                     <p><b>Candidates:</b></p>

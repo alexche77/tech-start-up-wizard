@@ -12,8 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('welcome')">
+                    <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
                         {{ __('Tech Startup - Team builder') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('startup.index')" :active="request()->routeIs('startup.*')">
+                        {{ __('Your startups') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -64,7 +67,7 @@
                         @endif
 
                     </div>
-            @endauth
+                @endauth
             <!-- Hamburger -->
                 <div class="-mr-2 flex items-center sm:hidden">
                     <button @click="open = ! open"

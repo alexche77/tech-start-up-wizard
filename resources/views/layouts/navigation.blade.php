@@ -15,9 +15,11 @@
                     <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
                         {{ __('Tech Startup - Team builder') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('startup.index')" :active="request()->routeIs('startup.*')">
-                        {{ __('Your startups') }}
-                    </x-nav-link>
+                    @auth
+                        <x-nav-link :href="route('startup.index')" :active="request()->routeIs('startup.*')">
+                            {{ __('Your startups') }}
+                        </x-nav-link>
+                    @endauth
                 </div>
             </div>
         @if (Route::has('login'))

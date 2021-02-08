@@ -26,7 +26,7 @@ class StartUpController extends Controller
      */
     public function index(Request $request)
     {
-        $startups = StartUp::where('user_id', $request->user()->id)->with(['category'])->orderByDesc('created_at');
+        $startups = StartUp::where('user_id', $request->user()->id)->with(['category','features','features.positions'])->orderByDesc('created_at');
         $q = NULL;
         if ($request->q != null) {
             $q = $request->q;

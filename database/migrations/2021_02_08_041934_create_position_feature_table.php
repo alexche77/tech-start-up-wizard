@@ -20,6 +20,7 @@ class CreatePositionFeatureTable extends Migration
             $table->timestamps();
             $table->foreignIdFor(Position::class);
             $table->foreignIdFor(Feature::class);
+            $table->json('usernames')->nullable(true);
         });
     }
 

@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'torre_api_url' => env('TORRE_CO_API_URL', 'https://search.torre.co'),
 
     'asset_url' => env('ASSET_URL', null),
 

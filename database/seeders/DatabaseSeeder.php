@@ -53,9 +53,15 @@ class DatabaseSeeder extends Seeder
             'Web application',
             'Data Analysis',
             'Machine Learning',
+            'QA Testing',
+            'Sales Team'
         ];
 
-        foreach ($features as $feature) {
+        $featureKeywords = [
+          ['']
+        ];
+
+        foreach ($features as $key => $feature) {
             Feature::create(['name' => $feature]);
         }
 

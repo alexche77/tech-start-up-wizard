@@ -45,7 +45,8 @@ class SetupDreamTeam implements ShouldQueue
          * */
 
         //Get the features
-
+        $features = $this->startUp->features()->get();
+        Log::info('We are requesting torre.co API for the following features');
         $this->startUp->sync_in_progress = false;
         $this->startUp->save();
         Log::info("Finished!", [$this->startUp]);

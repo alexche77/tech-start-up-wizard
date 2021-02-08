@@ -64,9 +64,21 @@ class SetupDreamTeam implements ShouldQueue
 //                }
                     $data = [
                         'and' => [
-                           "or"=>[
-
-                           ]
+                            [
+                                'role' => [
+                                    'term' => $position->name,
+                                ]
+                            ],
+                            [
+                                'periodicity' => [
+                                    'term' => 'monthly'
+                                ]
+                            ],
+                            [
+                                'opento' => [
+                                    'term' => 'full-time-employment'
+                                ]
+                            ]
                         ]
                     ];
                     Log::info("Searching with body", ['body' => $data]);

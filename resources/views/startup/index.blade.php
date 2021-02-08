@@ -13,7 +13,7 @@
                             @forelse(\GuzzleHttp\Utils::jsonDecode($position->pivot->usernames) as $username)
                                 <li>
                                     <a target="_blank"
-                                       href="https://bio.torre.co/api/bios/{{$username}}">{{$username}}</a>
+                                       href="https://bio.torre.co/en/{{$username}}">{{$username}}</a>
                                 </li>
                             @empty
                                 <li>No positions found yet</li>
